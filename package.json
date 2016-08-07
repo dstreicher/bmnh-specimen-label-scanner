@@ -1,6 +1,6 @@
 {
   "name": "bmnh-specimen-label-scanner",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "A mobile application used for scanning bmnh data matrix codes and linking them to the nhm data portal",
   "dependencies": {
     "@angular/common": "2.0.0-rc.4",
