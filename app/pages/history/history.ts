@@ -1,32 +1,35 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
+import {InAppBrowser} from 'ionic-native';
+import {HistoryItem, DataStore} from '../../services/datastore';
+import {UUID_URL} from '../../constants';
 
 @Component({
   templateUrl: 'build/pages/history/history.html'
 })
 export class HistoryPage {
   selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+  items: HistoryItem[];
 
-  constructor(public navCtrl: NavController, navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
+  constructor(private dataStore: DataStore) { }
 
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
+  private loadNotes() {
     this.items = [];
-    for(let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+    this.dataStore.getHistory().then((data) => {
+      if (data.res.rows.length > 0) {
+        for (var i = 0; i < data.res.rows.length; i++) {
+          let item = data.res.rows.item(i);
+          this.items.push(new HistoryItem(item.catalogNumber, item.occurrenceID, item.id));
+        }
+      }
+    });
   }
 
-  itemTapped(event, item) {
-    console.log(item);
+  itemTapped(event, item: HistoryItem) {
+    InAppBrowser.open(UUID_URL + item.occurrenceID, "_system");
+  }
+
+  private onPageDidEnter() {
+    this.loadNotes();
   }
 }

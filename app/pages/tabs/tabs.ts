@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {AlertController} from 'ionic-angular';
-import {BarcodeScanner, InAppBrowser} from 'ionic-native';
+import {BarcodeScanner} from 'ionic-native';
 import {HistoryPage} from '../history/history';
 import {OptionsPage} from '../options/options';
 import {DataPortal} from '../../services/dataportal';
+import {HistoryItem, DataStore} from '../../services/datastore';
 import {UUID_URL} from '../../constants';
 
 @Component({
@@ -14,16 +15,16 @@ export class TabsPage {
   private tab1Root: any;
   private tab2Root: any;
 
-  constructor(private alertCtrl: AlertController, private dataPortal: DataPortal) {
+  constructor(private alertCtrl: AlertController, private dataPortal: DataPortal, private dataStore: DataStore) {
     this.tab1Root = HistoryPage;
     this.tab2Root = OptionsPage;
   }
 
   presentAlert(barcodeData: any) {
     if (barcodeData.cancelled !== 1) {
-      this.dataPortal.search(barcodeData.text).subscribe((uuid) => {
-        if (uuid) {
-          InAppBrowser.open(UUID_URL + uuid, "_system");
+      this.dataPortal.search(barcodeData.text).subscribe((item: HistoryItem) => {
+        if (item) {
+          this.dataStore.saveHistory(item);
         }
         else {
           let alert = this.alertCtrl.create({

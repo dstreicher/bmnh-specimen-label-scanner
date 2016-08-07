@@ -7,7 +7,17 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 
+@import "../pages/options/options"; 
 
 scroll-content {
   margin-top: 6.4rem;
+}
+
+ion-list {
+  .item {
+    border-bottom: 1px solid #c8c7cc;
+    .item-inner {
+      border-bottom: none;
+    }
+  }
 }
