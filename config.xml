@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="uk.ac.nhm.data.scanner" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="uk.ac.nhm.data.scanner" version="0.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>NHM Scanner</name>
   <description>A mobile application used for scanning bmnh data matrix codes and linking them to the nhm data portal</description>
   <author email="dstreich3@gmail.com" href="https://github.com/dstreicher">Daniel Streicher</author>
