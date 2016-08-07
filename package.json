@@ -1,4 +1,7 @@
 {
+  "name": "bmnh-specimen-label-scanner",
+  "version": "0.0.1",
+  "description": "A mobile application used for scanning bmnh data matrix codes and linking them to the nhm data portal",
   "dependencies": {
     "@angular/common": "2.0.0-rc.4",
     "@angular/compiler": "2.0.0-rc.4",
@@ -28,8 +31,6 @@
     "tslint-ionic-rules": "^0.0.3",
     "run-sequence": "1.1.5"
   },
-  "name": "",
-  "description": ": An Ionic project",
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",
