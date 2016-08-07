@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {BarcodeScanner} from 'ionic-native';
 import {HistoryPage} from '../history/history';
 import {OptionsPage} from '../options/options';
 
@@ -13,5 +14,13 @@ export class TabsPage {
   constructor() {
     this.tab1Root = HistoryPage;
     this.tab2Root = OptionsPage;
+  }
+
+  scanCode() {
+    BarcodeScanner.scan().then((barcodeData) => {
+
+    }, (err) => {
+
+    });
   }
 }
