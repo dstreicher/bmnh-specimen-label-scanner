@@ -28,6 +28,11 @@ export class DataStore {
     return this.storage.query('SELECT * FROM history');
   }
 
+  public checkHistory(catalogNumber: string) {
+    let sql = 'SELECT * FROM history WHERE catalogNumber = ? LIMIT 1';
+    return this.storage.query(sql, [catalogNumber]);
+  }
+
   public saveHistory(item: HistoryItem) {
     let sql = 'INSERT INTO history (catalogNumber, specimenName, occurrenceID) VALUES (?,?,?)';
     return this.storage.query(sql, [item.catalogNumber, item.specimenName, item.occurrenceID]);
