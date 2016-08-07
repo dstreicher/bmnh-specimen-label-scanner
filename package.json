@@ -38,7 +38,9 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "phonegap-plugin-barcodescanner"
+    "cordova-plugin-inappbrowser",
+    "phonegap-plugin-barcodescanner",
+    "cordova-plugin-nativestorage"
   ],
   "cordovaPlatforms": []
 }
