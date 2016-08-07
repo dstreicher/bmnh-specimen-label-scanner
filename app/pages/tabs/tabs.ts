@@ -4,6 +4,7 @@ import {BarcodeScanner, InAppBrowser} from 'ionic-native';
 import {HistoryPage} from '../history/history';
 import {OptionsPage} from '../options/options';
 import {DataPortal} from '../../services/dataportal';
+import {UUID_URL} from '../../constants';
 
 @Component({
   templateUrl: 'build/pages/tabs/tabs.html'
@@ -20,14 +21,19 @@ export class TabsPage {
 
   presentAlert(barcodeData: any) {
     if (barcodeData.cancelled !== 1) {
-      this.dataPortal.search(barcodeData.text)
-      // let alert = this.alertCtrl.create({
-      //   title: 'Scan Result',
-      //   subTitle: barcodeData.text,
-      //   buttons: ['Dismiss']
-      // });
-      // alert.present();
-     InAppBrowser.open("http://data.nhm.ac.uk/dataset/collection-specimens/resource/05ff2255-c38a-40c9-b657-4ccb55ab2feb/record/982", "_system");
+      this.dataPortal.search(barcodeData.text).subscribe((uuid) => {
+        if (uuid) {
+          InAppBrowser.open(UUID_URL + uuid, "_system");
+        }
+        else {
+          let alert = this.alertCtrl.create({
+            title: 'Scan Error',
+            subTitle: 'No data portal uuid found for specimen catalog number ' + barcodeData.text + '.',
+            buttons: ['Dismiss']
+          });
+          alert.present();
+        }
+      })
     }
   }
 

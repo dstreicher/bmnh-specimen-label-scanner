@@ -17,10 +17,11 @@ export class DataPortal {
       subDepartment: EMU_SPECIMENS_SUB_DEPARTMENT_REPTILES_AMPHIBIANS
     });
     var query = RESOURCE_URL + '&filters=' + encodeURIComponent(queryString);
-    this.http.get(query)
-      .subscribe((data) => {
-        this.data = data;
-      });
+    return this.http.get(query)
+    .map((res) => {
+      var result = res.json().result;
+      return (result.total >= 1) ? result.records[0].occurrenceID : null;
+    });
   }
 
   getData() {
