@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController} from 'ionic-angular';
+import {AlertController, NavController, Events} from 'ionic-angular';
 import {BarcodeScanner} from 'ionic-native';
 import {HistoryPage} from '../history/history';
 import {OptionsPage} from '../options/options';
@@ -15,7 +15,7 @@ export class TabsPage {
   private tab1Root: any;
   private tab2Root: any;
 
-  constructor(private alertCtrl: AlertController, private dataPortal: DataPortal, private dataStore: DataStore) {
+  constructor(private alerts: AlertController, private events: Events, private dataPortal: DataPortal, private dataStore: DataStore) {
     this.tab1Root = HistoryPage;
     this.tab2Root = OptionsPage;
   }
@@ -24,10 +24,12 @@ export class TabsPage {
     if (barcodeData.cancelled !== 1) {
       this.dataPortal.search(barcodeData.text).subscribe((item: HistoryItem) => {
         if (item) {
-          this.dataStore.saveHistory(item);
+          this.dataStore.saveHistory(item).then(() => {
+            this.events.publish('loadHistory');
+          });
         }
         else {
-          let alert = this.alertCtrl.create({
+          let alert = this.alerts.create({
             title: 'Scan Error',
             subTitle: 'No data portal uuid found for specimen catalog number ' + barcodeData.text + '.',
             buttons: ['Dismiss']
@@ -42,7 +44,12 @@ export class TabsPage {
     BarcodeScanner.scan().then((barcodeData) => {
       this.presentAlert(barcodeData);
     }, (err) => {
-
+      let alert = this.alerts.create({
+        title: 'Scan Error',
+        subTitle: err,
+        buttons: ['Dismiss']
+      });
+      alert.present();
     });
   }
 }

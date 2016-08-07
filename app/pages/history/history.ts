@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {Events} from 'ionic-angular';
 import {InAppBrowser} from 'ionic-native';
 import {HistoryItem, DataStore} from '../../services/datastore';
 import {UUID_URL} from '../../constants';
@@ -11,15 +11,19 @@ export class HistoryPage {
   selectedItem: any;
   items: HistoryItem[];
 
-  constructor(private dataStore: DataStore) { }
+  constructor(private events: Events, private dataStore: DataStore) {
+    this.events.subscribe('loadHistory', () => {
+      this.loadHistory();
+    });
+  }
 
-  private loadNotes() {
+  private loadHistory() {
     this.items = [];
     this.dataStore.getHistory().then((data) => {
       if (data.res.rows.length > 0) {
         for (var i = 0; i < data.res.rows.length; i++) {
           let item = data.res.rows.item(i);
-          this.items.push(new HistoryItem(item.catalogNumber, item.occurrenceID, item.id));
+          this.items.push(new HistoryItem(item.catalogNumber, item.specimenName, item.occurrenceID, item.id));
         }
       }
     });
@@ -30,6 +34,6 @@ export class HistoryPage {
   }
 
   private onPageDidEnter() {
-    this.loadNotes();
+    this.loadHistory();
   }
 }

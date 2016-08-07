@@ -3,15 +3,15 @@
     <ion-list-header>Settings</ion-list-header>
     <ion-item>
       <ion-label>Use In-App Browser</ion-label>
-      <ion-toggle checked="false"></ion-toggle>
+      <ion-toggle [(ngModel)]="options.useInAppBrowser"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Ignore Duplicate Scans</ion-label>
-      <ion-toggle checked="false"></ion-toggle>
+      <ion-toggle [(ngModel)]="options.ignoreDuplicateScans"></ion-toggle>
     </ion-item>
     <ion-item-divider light></ion-item-divider>
-    <button full outline>Export History</button>
+    <button full outline (click)="exportHistory()">Export History</button>
     <ion-item-divider light></ion-item-divider>
-    <button full outline danger>Clear History</button>
+    <button full outline danger (click)="clearHistory()">Clear History</button>
   </ion-list>
 </ion-content>

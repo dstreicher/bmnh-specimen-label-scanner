@@ -2,7 +2,8 @@
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
       <ion-icon name="barcode" item-left></ion-icon>
-      {{item.catalogNumber}}
+      <h2>{{item.catalogNumber}}</h2>
+      <p>{{item.specimenName}}</p>
     </button>
   </ion-list>
   <div *ngIf="selectedItem" padding>

@@ -4,10 +4,12 @@ import {API_URL, RESOURCE_URL, EMU_SPECIMENS_SUB_DEPARTMENT_REPTILES_AMPHIBIANS}
 
 export class HistoryItem {
   catalogNumber: string;
+  specimenName: string;
   occurrenceID: string;
   id: number;
-  constructor(catalogNumber: string, occurrenceID: string, id?: number) {
+  constructor(catalogNumber: string, specimenName: string, occurrenceID: string, id?: number) {
     this.catalogNumber = catalogNumber;
+    this.specimenName = specimenName;
     this.occurrenceID = occurrenceID;
     this.id = id;
   }
@@ -19,26 +21,33 @@ export class DataStore {
 
   constructor() {
     this.storage = new Storage(SqlStorage);
-    this.storage.query('CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY AUTOINCREMENT, catalogNumber TEXT, occurrenceID TEXT)');
+    this.storage.query('CREATE TABLE IF NOT EXISTS history (id INTEGER PRIMARY KEY AUTOINCREMENT, catalogNumber TEXT, specimenName TEXT, occurrenceID TEXT)');
   }
 
   public getHistory() {
     return this.storage.query('SELECT * FROM history');
   }
- 
+
   public saveHistory(item: HistoryItem) {
-    let sql = 'INSERT INTO history (catalogNumber, occurrenceID) VALUES (?,?)';
-    return this.storage.query(sql, [item.catalogNumber, item.occurrenceID]);
+    let sql = 'INSERT INTO history (catalogNumber, specimenName, occurrenceID) VALUES (?,?,?)';
+    return this.storage.query(sql, [item.catalogNumber, item.specimenName, item.occurrenceID]);
   }
- 
+
   public updateHistory(item: HistoryItem) {
-    let sql = 'UPDATE history SET title = \"' + item.catalogNumber + '\", text = \"' + item.occurrenceID + '\" WHERE id = \"' + item.id + '\"';
-    this.storage.query(sql);
+    let sql = 'UPDATE history SET catalogNumber = \"' +
+      item.catalogNumber + '\", specimenName = \"' +
+      item.specimenName + '\", occurrenceID = \"' +
+      item.occurrenceID + '\" WHERE id = \"' + item.id + '\"';
+    return this.storage.query(sql);
   }
- 
-  // Remoe a not with a given ID
+
   public removeHistory(item: HistoryItem) {
     let sql = 'DELETE FROM history WHERE id = \"' + item.id + '\"';
-    this.storage.query(sql);
+    return this.storage.query(sql);
+  }
+
+  public removeAll() {
+    let sql = 'DELETE FROM history';
+    return this.storage.query(sql);
   }
 }

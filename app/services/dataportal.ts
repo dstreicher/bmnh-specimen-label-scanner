@@ -19,8 +19,8 @@ export class DataPortal {
     .map((res) => {
       var item = null;
       var result = res.json().result;
-      if (result.total >- 1) {
-        item = new HistoryItem(catalogNumber, result.records[0].occurrenceID);
+      if (result.total >= 1) {
+        item = new HistoryItem(catalogNumber, result.records[0].genus + ' ' + result.records[0].specificEpithet, result.records[0].occurrenceID);
       }
       return item;
     });
