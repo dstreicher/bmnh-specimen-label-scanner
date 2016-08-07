@@ -13,13 +13,14 @@ export class TabsPage {
   private tab1Root: any;
   private tab2Root: any;
 
-  constructor(private alertCtrl: AlertController, dataPortal: DataPortal) {
+  constructor(private alertCtrl: AlertController, private dataPortal: DataPortal) {
     this.tab1Root = HistoryPage;
     this.tab2Root = OptionsPage;
   }
 
   presentAlert(barcodeData: any) {
     if (barcodeData.cancelled !== 1) {
+      this.dataPortal.search(barcodeData.text)
       // let alert = this.alertCtrl.create({
       //   title: 'Scan Result',
       //   subTitle: barcodeData.text,
